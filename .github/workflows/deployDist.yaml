@@ -20,6 +20,7 @@ jobs:
       - name: Run Tests
         run: npm run test
   deploy:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Ged Code
@@ -30,9 +31,9 @@ jobs:
           node-version: 20
       - name: insall dependencies
         run: npm ci
-      - name: Build project 
-        run: npm run build]
-      - name: Deploy 
+      - name: Build project
+        run: npm run build
+      - name: Deploy
         run: echo "Deploy successful"
         # run: |
         #   echo "Cloning repo.."
