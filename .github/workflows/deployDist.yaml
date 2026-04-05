@@ -32,8 +32,8 @@ jobs:
         run: npm ci
       - name: Run Tests
         run: npm run test
-  deploy:
-    needs: test
+  build: 
+    needs: test 
     runs-on: ubuntu-latest
     steps:
       - name: Ged Code
@@ -51,9 +51,19 @@ jobs:
         run: npm ci
       - name: Build project
         run: npm run build
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+            name: dist-files
+            path: dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Upload dist artifact
+        uses: actions/download-artifact@v8
+        with:
+            name: dist-files
+            path: dist
       - name: Deploy
         run: echo "Deploy successful"
-        # run: |
-        #   echo "Cloning repo.."
-        #   echo "${{toJson(github)}}"
-        #   git clone "https://github.com/${{github.repository}}.git"
